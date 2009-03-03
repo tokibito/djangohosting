@@ -1,6 +1,7 @@
 server:
   host: localhost
   port: 8000
+  daemonize: false
 
 hosting:
   domain: example.com
