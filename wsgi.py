@@ -25,22 +25,22 @@ def handle_project(host_settings, username, project_name, environ, proj_conn):
     if not django_proj_dir in sys.path:
         sys.path.append(django_proj_dir)
 
-    from django.conf import settings
-    from django.core.handlers.wsgi import WSGIHandler as DjangoHandler
-
-    # create django handler
-    application = DjangoHandler()
-
-    # admin media
-    if host_settings.hosting.admin_media:
-        from django.core.servers.basehttp import AdminMediaHandler
-        application = AdminMediaHandler(application)
-
-    def start_response(status, headers, exec_info=None):
-        # send start_response args
-        proj_conn.send([status, headers])
-
     try:
+        from django.conf import settings
+        from django.core.handlers.wsgi import WSGIHandler as DjangoHandler
+ 
+        # create django handler
+        application = DjangoHandler()
+ 
+        # admin media
+        if host_settings.hosting.admin_media:
+            from django.core.servers.basehttp import AdminMediaHandler
+            application = AdminMediaHandler(application)
+ 
+        def start_response(status, headers, exec_info=None):
+            # send start_response args
+            proj_conn.send([status, headers])
+ 
         # handle application
         resp = application(environ, start_response)
     except:
