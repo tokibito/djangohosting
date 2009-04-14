@@ -83,6 +83,7 @@ class LoggingFTPHandler(FTPHandler):
     """
     logging_handler = LoggingHandler()
     is_client_utf8 = False
+    default_encoding = 'UTF-8'
 
     def __init__(self, *args, **kwargs):
         FTPHandler.__init__(self, *args, **kwargs)
@@ -124,7 +125,7 @@ class LoggingFTPHandler(FTPHandler):
         FTPHandler.ftp_OPTS(self, line)
 
     def get_encoding(self):
-        return sys.getfilesystemencoding().upper()
+        return self.default_encoding
 
     def logging(self, line, mode):
         if self.logging_handler:
