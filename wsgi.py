@@ -70,7 +70,12 @@ class WSGIHandler(object):
             project_name, username = host_utils.split_domain(name)
         else:
             return handle_exception('403 Forbidden', start_response)
-    
+
+        app_dir = os.path.join(os.path.abspath(settings.hosting.project_dir), '%s.%s' % (project_name, username))
+        app_settings = os.path.join(app_dir, 'settings.py')
+        if not os.path.exists(app_settings):
+            return handle_exception('404 Not Found', start_response)
+
         handler_conn, proj_conn = Pipe()
         proc = Process(target=handle_project, args=(self.settings, username, project_name, environ, proj_conn))
         proc.start()
