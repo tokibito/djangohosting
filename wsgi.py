@@ -71,7 +71,7 @@ class WSGIHandler(object):
         else:
             return handle_exception('403 Forbidden', start_response)
 
-        app_dir = os.path.join(os.path.abspath(settings.hosting.project_dir), '%s.%s' % (project_name, username))
+        app_dir = os.path.join(os.path.abspath(self.settings.hosting.project_dir), '%s.%s' % (project_name, username))
         app_settings = os.path.join(app_dir, 'settings.py')
         if not os.path.exists(app_settings):
             return handle_exception('404 Not Found', start_response)
