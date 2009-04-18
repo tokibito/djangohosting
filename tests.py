@@ -18,8 +18,8 @@ class ConfTestCase(unittest.TestCase):
 class DomainTestCase(unittest.TestCase):
     def test_domain(self):
         import domainmap
-        settings = conf.Settings()
-        self.assertEqual(domainmap.registered_domain(settings, 'tokibito.orz.hm'), 'tkhp.tokibito')
+        settings = conf.Settings('app.yaml.default')
+        self.assertEqual(domainmap.registered_domain(settings, 'tokibito.orz.hm'), 'tokibito.tkhp')
 
 if __name__ == '__main__':
     unittest.main()
