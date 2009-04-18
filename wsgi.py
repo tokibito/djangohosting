@@ -4,6 +4,7 @@ from StringIO import StringIO
 from multiprocessing import Process, Pipe
 
 from conf import Settings
+from domainmap import registered_domain
 import utils as host_utils
 
 def handle_exception(status, start_response, msg=None):
@@ -59,17 +60,21 @@ class WSGIHandler(object):
     def __call__(self, environ, start_response):
         domain, port = host_utils.split_hostname(environ['HTTP_HOST'])
 
-        if not domain.endswith(self.settings.hosting.domain):
-            return handle_exception('404 Not Found', start_response)
-    
-        name = host_utils.split_subdomain(self.settings.hosting.domain, domain)
-        if not name:
-            username = '_admin'
-            project_name = 'hosting'
-        elif name.count(host_utils.SEP_DOMAIN) == 1:
+        project = registered_domain(self.settings, domain)
+        if project and project.count(host_utils.SEP_DOMAIN) == 1:
             project_name, username = host_utils.split_domain(name)
         else:
-            return handle_exception('403 Forbidden', start_response)
+            if not domain.endswith(self.settings.hosting.domain):
+                return handle_exception('404 Not Found', start_response)
+    
+            name = host_utils.split_subdomain(self.settings.hosting.domain, domain)
+            if not name:
+                username = '_admin'
+                project_name = 'hosting'
+            elif name.count(host_utils.SEP_DOMAIN) == 1:
+                project_name, username = host_utils.split_domain(name)
+            else:
+                return handle_exception('403 Forbidden', start_response)
 
         app_dir = os.path.join(os.path.abspath(self.settings.hosting.project_dir), '%s/%s' % (username, project_name))
         app_settings = os.path.join(app_dir, 'settings.py')

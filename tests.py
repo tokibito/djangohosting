@@ -15,5 +15,11 @@ class ConfTestCase(unittest.TestCase):
         resolver = conf.Resolver({'foo': {'bar': 123}})
         self.assertEqual(resolver.foo.bar, 123)
 
+class DomainTestCase(unittest.TestCase):
+    def test_domain(self):
+        import domainmap
+        settings = conf.Settings()
+        self.assertEqual(domainmap.registered_domain(settings, 'tokibito.orz.hm'), 'tkhp.tokibito')
+
 if __name__ == '__main__':
     unittest.main()
