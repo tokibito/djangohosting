@@ -1,4 +1,4 @@
 from django.contrib import admin
-from domainmap.models import DomainMap
+from domainmanager.models import DomainMap
 
 admin.site.register(DomainMap)
