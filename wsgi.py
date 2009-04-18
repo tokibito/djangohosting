@@ -62,7 +62,7 @@ class WSGIHandler(object):
 
         project = registered_domain(self.settings, domain)
         if project and project.count(host_utils.SEP_DOMAIN) == 1:
-            project_name, username = host_utils.split_domain(name)
+            username, project_name = host_utils.split_domain(project)
         else:
             if not domain.endswith(self.settings.hosting.domain):
                 return handle_exception('404 Not Found', start_response)
