@@ -81,5 +81,5 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'unboxftpd',
     'setupftp',
-    'domainmap',
+    'domainmanager',
 )
