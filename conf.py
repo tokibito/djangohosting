@@ -1,6 +1,8 @@
 import os
 from yaml import load as yaml_load
 
+DEFAULT_CONFIG = '/etc/djangohosting/app.yaml'
+
 class Resolver(object):
     def __init__(self, _dict=None):
         self._dict = _dict
@@ -23,8 +25,7 @@ class Settings(Resolver):
     """
     def __init__(self, config_file=None):
         if not config_file:
-            config_file = os.path.join(os.path.dirname(
-                    os.path.abspath(__file__)), 'app.yaml')
+            config_file = DEFAULT_CONFIG
         f = open(config_file, 'r')
         self._yaml = f.read()
         f.close()
