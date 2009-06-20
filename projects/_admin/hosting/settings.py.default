@@ -82,4 +82,5 @@ INSTALLED_APPS = (
     'unboxftpd',
     'setupftp',
     'domainmanager',
+    'ddns_update',
 )
